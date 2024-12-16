@@ -7,26 +7,36 @@ import { ApolloProvider } from '@apollo/client';
 import { client } from './client';
 import { ListPage, Home } from '../screens';
 import { PokemonDetail } from '../components/PokemonList/components/PokemonDetail';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   const classes = useStyles();
   return (
     <ApolloProvider client={client}>
-      <LayoutProvider>
-        <div className={classes.root}>
-          <BrowserRouter>
-            <Nav />
-            <div className={classes.content}>
-              <div className={classes.scrollableArea}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/pokemon" element={<ListPage />} />
-                </Routes>
+      <ThemeProvider theme={darkTheme}>
+        <LayoutProvider>
+          <div className={classes.root}>
+            <BrowserRouter>
+              <Nav />
+              <div className={classes.content}>
+                <div className={classes.scrollableArea}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/pokemon" element={<ListPage />} />
+                  </Routes>
+                </div>
               </div>
-            </div>
-          </BrowserRouter>
-        </div>
-      </LayoutProvider>
+            </BrowserRouter>
+          </div>
+        </LayoutProvider>
+      </ThemeProvider>
     </ApolloProvider>
   );
 }

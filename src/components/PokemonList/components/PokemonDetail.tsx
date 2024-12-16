@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
 import {
   Pokemon,
@@ -15,16 +15,21 @@ import {
 } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-type PokemonDetailProps = { open: boolean; handleClose: () => void };
+type PokemonDetailProps = {
+  open: boolean;
+  handleClose: () => void;
+  pokeID: string;
+  pokeName: string;
+};
 
 export const PokemonDetail: FC<PokemonDetailProps> = ({
   open,
   handleClose,
+  pokeID,
+  pokeName,
 }) => {
   const classes = useStyles();
-  const [searchParams] = useSearchParams();
-  const pokeID = searchParams.get('pokeID');
-  const { pokemon, loading } = useGetPokemonById(pokeID);
+  const { pokemon, loading } = useGetPokemonById(pokeID, pokeName);
 
   return (
     <div>
@@ -37,7 +42,7 @@ export const PokemonDetail: FC<PokemonDetailProps> = ({
         <DialogTitle id="alert-dialog-title">{pokemon?.name}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to perform this action?
+            {pokemon?.classification}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

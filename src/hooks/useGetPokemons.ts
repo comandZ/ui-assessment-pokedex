@@ -96,15 +96,16 @@ export const useGetPokemons = () => {
   };
 };
 
-export const useGetPokemonById = (id: string | null) => {
+export const useGetPokemonById = (id: string | null, name: string | null) => {
   const { data, ...queryRes } = useQuery(GET_POKEMON_BYID, {
     variables: {
       id,
+      name,
     },
   });
-
+  console.log('Data', data);
   const pokemon = useMemo<PokemonDetails | undefined | null>(
-    () => data,
+    () => data?.pokemon,
     [data]
   );
 

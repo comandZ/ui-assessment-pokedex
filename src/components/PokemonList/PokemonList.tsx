@@ -1,10 +1,11 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Pokemon, useGetPokemons } from '../../hooks/useGetPokemons';
 // import { searchUtil } from '../../utils/searchUtil';
 import { PokemonListItem } from './components/PokemonListItem';
 import { SearchInput } from './components/SearchComponent';
 import { PokemonDetail } from './components/PokemonDetail';
+import { useSearchParams } from 'react-router-dom';
 
 export const PokemonList = () => {
   const classes = useStyles();
@@ -13,11 +14,22 @@ export const PokemonList = () => {
   const [filteredItems, setFilteredItems] = useState(pokemons);
   const [open, setOpen] = useState(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pokeID = useMemo(() => {
+    const id = searchParams.get('pokeID');
+    if (id === null) {
+      return null;
+    }
+    return decodeURIComponent(id);
+  }, [searchParams]);
+  const pokeName = searchParams.get('pokeName');
+
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    setSearchParams();
     setOpen(false);
   };
 
@@ -43,12 +55,21 @@ export const PokemonList = () => {
     <div className={classes.root}>
       {loading && <div>Loading...</div>}
       <SearchInput onChangeSearchQuery={(query) => setSearchTerm(query)} />
+      {pokeID}
+      {pokeName}
       <ul className={classes.pokeList}>
         {filteredItems.map((pkmn) => (
           <PokemonListItem item={pkmn} handleOpen={handleOpen} />
         ))}
       </ul>
-      <PokemonDetail open={open} handleClose={handleClose} />
+      {pokeID && pokeName && (
+        <PokemonDetail
+          open={open}
+          handleClose={handleClose}
+          pokeID={pokeID}
+          pokeName={pokeName}
+        />
+      )}
     </div>
   );
 };

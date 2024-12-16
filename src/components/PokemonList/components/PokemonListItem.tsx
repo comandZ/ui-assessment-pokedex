@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Pokemon } from '../../../hooks/useGetPokemons';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 type PokemonListItemProps = { item: Pokemon; handleOpen: () => void };
 
@@ -10,21 +10,23 @@ export const PokemonListItem: FC<PokemonListItemProps> = ({
   handleOpen,
 }) => {
   const classes = useStyles();
+  const [_searchParams, setSearchParams] = useSearchParams();
+
+  const onClickItem = () => {
+    setSearchParams({ pokeID: item.id, pokeName: item.name });
+    handleOpen();
+  };
 
   return (
     <li key={item.id} className={classes.root}>
-      <Link
-        to={{
-          pathname: `/pokemon/?pokeID=${item.id}`,
-        }}
-        onClick={handleOpen}
-        className={classes.pokeCard}
-      >
-        <h3>{item.name}</h3>
+      <div onClick={onClickItem} className={classes.pokeCard}>
+        <h3>
+          {item.name}, {item.id}
+        </h3>
         <img src={item.image} alt={item.name} />
         <span>{item.number}</span>
         <span>{item.types.join(', ')}</span>
-      </Link>
+      </div>
     </li>
   );
 };
