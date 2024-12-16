@@ -53,7 +53,7 @@ export const PokemonList = () => {
   }, [searchTerm]);
 
   return (
-    <Grid2 container className={classes.root} spacing={2}>
+    <Grid2 container className={classes.root} spacing={4}>
       <Grid2 size={5}>
         <SearchInput onChangeSearchQuery={(query) => setSearchTerm(query)} />
       </Grid2>
