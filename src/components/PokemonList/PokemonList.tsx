@@ -6,6 +6,7 @@ import { PokemonListItem } from './components/PokemonListItem';
 import { SearchInput } from './components/SearchComponent';
 import { PokemonDetail } from './components/PokemonDetail';
 import { useSearchParams } from 'react-router-dom';
+import { List } from '@mui/material';
 
 export const PokemonList = () => {
   const classes = useStyles();
@@ -57,11 +58,11 @@ export const PokemonList = () => {
       <SearchInput onChangeSearchQuery={(query) => setSearchTerm(query)} />
       {pokeID}
       {pokeName}
-      <ul className={classes.pokeList}>
+      <List className={classes.pokeList}>
         {filteredItems.map((pkmn) => (
           <PokemonListItem item={pkmn} handleOpen={handleOpen} />
         ))}
-      </ul>
+      </List>
       {pokeID && pokeName && (
         <PokemonDetail
           open={open}
@@ -83,7 +84,8 @@ const useStyles = createUseStyles(
       boxSizing: 'border-box',
     },
     pokeList: {
-      listStyle: 'none',
+      maxWidth: '100%',
+      margin: '0 auto',
     },
   },
   { name: 'PokemonList' }
