@@ -12,6 +12,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Avatar,
+  Grid2,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Divider,
 } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
@@ -32,40 +39,59 @@ export const PokemonDetail: FC<PokemonDetailProps> = ({
   const { pokemon, loading } = useGetPokemonById(pokeID, pokeName);
 
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{pokemon?.name}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {pokemon?.classification}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      className={classes.root}
+    >
+      <DialogTitle id="alert-dialog-title">{pokemon?.name}</DialogTitle>
+      <DialogContent dividers>
+        <Grid2 container spacing={2} sx={{ alignItems: 'center' }}>
+          <Grid2 size={5}>
+            <Avatar
+              src={pokemon?.image}
+              alt={pokemon?.name}
+              sx={{ width: '200px', height: '200px' }}
+            />
+          </Grid2>
+          <Grid2 size={7}>
+            <Typography variant="subtitle1">Classification</Typography>
+            <Typography variant="h6">{pokemon?.classification}</Typography>
+            <Divider />
+            <Typography variant="subtitle1">Types</Typography>
+            <Typography variant="h6">{pokemon?.types.join(', ')}</Typography>
+            <Divider />
+            <Typography variant="subtitle1">Resistant</Typography>
+            <Typography variant="h6">
+              {pokemon?.resistant.join(', ')}
+            </Typography>
+            <Divider />
+            <Typography variant="subtitle1">Weaknesses"</Typography>
+            <Typography variant="h6">
+              {pokemon?.weaknesses.join(', ')}
+            </Typography>
+            <Divider />
+            <Typography variant="subtitle1">Fleet Rate"</Typography>
+            <Typography variant="h6">{pokemon?.fleeRate}</Typography>
+          </Grid2>
+        </Grid2>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} autoFocus>
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
 const useStyles = createUseStyles(
   {
     root: {
-      width: '40%',
-      textAdivgn: 'center',
-      margin: '0 auto',
-      borderRadius: '8px',
-
-      '&:hover': {
-        backgroundColor: '#4B5066',
+      '& .MuiDialog-paper': {
+        width: '80%',
       },
     },
     pokeCard: {
