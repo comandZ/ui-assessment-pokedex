@@ -14,7 +14,11 @@ export const Nav = () => {
       <div className={classes.root}>
         <div className={classes.main}>
           <div className={classes.title}>
-            <img src="/pokeball-white.png" className={classes.img} />
+            <img
+              src="/pokeball-white.png"
+              className={classes.img}
+              alt="Pokebal Logo"
+            />
             <h3>Pokémon</h3>
           </div>
           <NavOption to="/" icon="home" name="Home">
