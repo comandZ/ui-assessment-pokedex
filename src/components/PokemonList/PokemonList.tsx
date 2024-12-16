@@ -4,12 +4,22 @@ import { Pokemon, useGetPokemons } from '../../hooks/useGetPokemons';
 // import { searchUtil } from '../../utils/searchUtil';
 import { PokemonListItem } from './components/PokemonListItem';
 import { SearchInput } from './components/SearchComponent';
+import { PokemonDetail } from './components/PokemonDetail';
 
 export const PokemonList = () => {
   const classes = useStyles();
   const { pokemons, loading } = useGetPokemons();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState(pokemons);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (!searchTerm || searchTerm === '') {
@@ -35,9 +45,10 @@ export const PokemonList = () => {
       <SearchInput onChangeSearchQuery={(query) => setSearchTerm(query)} />
       <ul className={classes.pokeList}>
         {filteredItems.map((pkmn) => (
-          <PokemonListItem item={pkmn} />
+          <PokemonListItem item={pkmn} handleOpen={handleOpen} />
         ))}
       </ul>
+      <PokemonDetail open={open} handleClose={handleClose} />
     </div>
   );
 };

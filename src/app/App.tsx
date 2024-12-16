@@ -6,6 +6,7 @@ import { Nav } from '../components';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './client';
 import { ListPage, Home } from '../screens';
+import { PokemonDetail } from '../components/PokemonList/components/PokemonDetail';
 
 function App() {
   const classes = useStyles();

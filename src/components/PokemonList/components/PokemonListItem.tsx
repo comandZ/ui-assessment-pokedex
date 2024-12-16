@@ -1,21 +1,30 @@
 import React, { FC } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Pokemon } from '../../../hooks/useGetPokemons';
+import { Link } from 'react-router-dom';
 
-type PokemonListItemProps = { item: Pokemon };
+type PokemonListItemProps = { item: Pokemon; handleOpen: () => void };
 
-export const PokemonListItem: FC<PokemonListItemProps> = ({ item }) => {
+export const PokemonListItem: FC<PokemonListItemProps> = ({
+  item,
+  handleOpen,
+}) => {
   const classes = useStyles();
 
   return (
     <li key={item.id} className={classes.root}>
-      <div className={classes.pokeCard}>
+      <Link
+        to={{
+          pathname: `/pokemon/?pokeID=${item.id}`,
+        }}
+        onClick={handleOpen}
+        className={classes.pokeCard}
+      >
         <h3>{item.name}</h3>
         <img src={item.image} alt={item.name} />
-
         <span>{item.number}</span>
         <span>{item.types.join(', ')}</span>
-      </div>
+      </Link>
     </li>
   );
 };

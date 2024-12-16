@@ -15,6 +15,28 @@ export type PokemonOption = {
   label: Pokemon['name'];
 };
 
+export type PokemonDetails = {
+  id: string;
+  number: string;
+  name: string;
+  weight: {
+    minimum: string;
+    maximum: string;
+  };
+  height: {
+    minimum: string;
+    maximum: string;
+  };
+  classification: string;
+  types: string[];
+  resistant: string[];
+  weaknesses: string[];
+  fleeRate: string;
+  maxCP: string;
+  maxHP: string;
+  image: string;
+};
+
 export const GET_POKEMONS = gql`
   query pokemons($first: Int!) {
     pokemons(first: $first) {
@@ -22,6 +44,32 @@ export const GET_POKEMONS = gql`
       name
       number
       types
+      image
+    }
+  }
+`;
+
+export const GET_POKEMON_BYID = gql`
+  query pokemon($id: String, $name: String) {
+    pokemon(id: $id, name: $name) {
+      id
+      number
+      name
+      weight {
+        minimum
+        maximum
+      }
+      height {
+        minimum
+        maximum
+      }
+      classification
+      types
+      resistant
+      weaknesses
+      fleeRate
+      maxCP
+      maxHP
       image
     }
   }
@@ -44,6 +92,24 @@ export const useGetPokemons = () => {
   return {
     pokemons,
     pokemonOptions,
+    ...queryRes,
+  };
+};
+
+export const useGetPokemonById = (id: string | null) => {
+  const { data, ...queryRes } = useQuery(GET_POKEMON_BYID, {
+    variables: {
+      id,
+    },
+  });
+
+  const pokemon = useMemo<PokemonDetails | undefined | null>(
+    () => data,
+    [data]
+  );
+
+  return {
+    pokemon,
     ...queryRes,
   };
 };
