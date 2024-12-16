@@ -6,7 +6,7 @@ import { PokemonListItem } from './components/PokemonListItem';
 import { SearchInput } from './components/SearchComponent';
 import { PokemonDetail } from './components/PokemonDetail';
 import { useSearchParams } from 'react-router-dom';
-import { List } from '@mui/material';
+import { List, Grid2 } from '@mui/material';
 
 export const PokemonList = () => {
   const classes = useStyles();
@@ -53,25 +53,28 @@ export const PokemonList = () => {
   }, [searchTerm]);
 
   return (
-    <div className={classes.root}>
-      {loading && <div>Loading...</div>}
-      <SearchInput onChangeSearchQuery={(query) => setSearchTerm(query)} />
-      {pokeID}
-      {pokeName}
-      <List className={classes.pokeList}>
-        {filteredItems.map((pkmn) => (
-          <PokemonListItem item={pkmn} handleOpen={handleOpen} />
-        ))}
-      </List>
-      {pokeID && pokeName && (
-        <PokemonDetail
-          open={open}
-          handleClose={handleClose}
-          pokeID={pokeID}
-          pokeName={pokeName}
-        />
-      )}
-    </div>
+    <Grid2 container className={classes.root} spacing={2}>
+      <Grid2 size={5}>
+        <SearchInput onChangeSearchQuery={(query) => setSearchTerm(query)} />
+      </Grid2>
+
+      <Grid2 size={7}>
+        {loading && <div>Loading...</div>}
+        <List className={classes.pokeList}>
+          {filteredItems.map((pkmn) => (
+            <PokemonListItem item={pkmn} handleOpen={handleOpen} />
+          ))}
+        </List>
+        {pokeID && pokeName && (
+          <PokemonDetail
+            open={open}
+            handleClose={handleClose}
+            pokeID={pokeID}
+            pokeName={pokeName}
+          />
+        )}
+      </Grid2>
+    </Grid2>
   );
 };
 
